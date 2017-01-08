@@ -23,20 +23,36 @@ public:
     RaiseParticles particles;
     
     void setup(){
+        $Context(RollCam)->setup();
         cout << "LM0 setup" << endl;
         
     }
     
     void update(){
-        cout << "LM0 update" << endl;
+        keyEvent();
+        $Context(RollCam)->update();
         particles.update();
     }
     
     void draw(){
         //cout << "Scene0: " << endl;
         ofBackground(0);
+        $Context(RollCam)->begin();
         ofSetColor(255, 0, 255, 255);
         particles.draw();
+        $Context(RollCam)->end();
+    }
+
+private:
+    
+    void keyEvent(){
+        int key = $Context(KeyboardControl)->getPressedKey();
+        if (key == 'a') {
+            particles.setCurrentTime();
+        }
+        if (key == 'z') {
+            $Context(RollCam)->setRandomPos();
+        }
     }
     
 };

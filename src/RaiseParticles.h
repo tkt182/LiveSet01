@@ -19,6 +19,7 @@ public:
     
     void update();
     void draw();
+    void setCurrentTime();
     
     int numParticles;
     int maxParticles;

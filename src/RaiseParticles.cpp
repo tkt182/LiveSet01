@@ -26,6 +26,11 @@ RaiseParticles::RaiseParticles(){
 
         numParticles++;
     }
+    
+    // Easing
+    initTime = 0.f;
+    endPosition = sheight;
+    
 
 }
 
@@ -34,9 +39,23 @@ RaiseParticles::~RaiseParticles(){
 }
 
 void RaiseParticles::update(){
+    
+    float duration = 1.f;
+    float endTime = initTime + duration;
+    float now = ofGetElapsedTimef();
+    
+    for(int i = 0; i < positions.size(); i++){
+        ofVec3f pos = positions[i];
+        positions[i].y = ofxeasing::map_clamp(now, initTime, endTime, -sheight, endPosition, &ofxeasing::linear::easeIn);
+        billboards.getVertices()[i].set(pos);
+    }
 
 }
 
 void RaiseParticles::draw(){
     billboards.draw();
+}
+
+void RaiseParticles::setCurrentTime(){
+    initTime = ofGetElapsedTimef();
 }
