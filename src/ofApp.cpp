@@ -49,11 +49,13 @@ void ofApp::draw(){
 void ofApp::keyPressed(int key){
     if (key == '1') SM.changeScene<Scene0>();
     if (key == '2') SM.changeScene<Scene1>();
+    
+    $Context(KeyboardControl)->setPressedKey(key);
 }
 
 //--------------------------------------------------------------
 void ofApp::keyReleased(int key){
-    $Context(KeyboardControl)->setPressedKey(key);
+    $Context(KeyboardControl)->setPressedKey(0);
 }
 
 //--------------------------------------------------------------

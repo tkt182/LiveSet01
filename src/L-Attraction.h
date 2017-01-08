@@ -33,6 +33,7 @@ public:
     
     void setup(){
         
+        $Context(RollCam)->setup();
         mesh.setMode(OF_PRIMITIVE_POINTS);
         glPointSize(1.0);
         
@@ -43,13 +44,19 @@ public:
         for (int i = 0; i < NUM; i++) {
             AttractionParticle p;
             p.friction = 0.002;
-            p.setup(ofVec3f(ofRandom(swidth), ofRandom(sheight), ofRandom(sdepth)), ofVec3f(0, 0, 0));
+            p.setup(ofVec3f(ofRandom(-swidth, swidth),
+                            ofRandom(-sheight, sheight),
+                            ofRandom(-sdepth, sdepth)),
+                            ofVec3f(0, 0, 0));
             particles.push_back(p);
         }
         
         center.x = swidth / 2.0;
         center.y = sheight / 2.0;
         center.z = sdepth / 2.0;
+        center.x = 0;
+        center.y = 0;
+        center.z = 0;
         
         rotation = 0.0;
         
@@ -58,6 +65,7 @@ public:
     void update(){
         
         keyEvent();
+        $Context(RollCam)->update();
         
         for (int i = 0; i < particles.size(); i++){
             particles[i].resetForce();
@@ -74,11 +82,13 @@ public:
         ofSetColor(255);
         
         ofPushMatrix();
-        ofRotateY(rotation);
+        //ofRotateY(rotation);
+        $Context(RollCam)->begin();
         for (int i = 0; i < particles.size(); i++) {
             mesh.addVertex(ofVec3f(particles[i].position.x, particles[i].position.y, particles[i].position.z));
         }
         mesh.draw();
+        $Context(RollCam)->end();
         
         if (atraction) {
             ofSetColor(255, 0, 0);
@@ -99,6 +109,9 @@ private:
         }
         if (key == 's') {
             atraction = false;
+        }
+        if (key == 'z') {
+            $Context(RollCam)->setRandomPos();
         }
     }
 };

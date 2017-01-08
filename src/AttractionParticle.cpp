@@ -58,12 +58,18 @@ void AttractionParticle::bounceOffWalls(){
     bool bDampedOnCollision = false;
     bool bDidICollide = false;
     
-    float minx = 0;
-    float miny = 0;
-    float minz = 0;
-    float maxx = 2000;
-    float maxy = 2000;
-    float maxz = 2000;
+    //float minx = 0;
+    //float miny = 0;
+    //float minz = 0;
+    //float maxx = 2000;
+    //float maxy = 2000;
+    //float maxz = 2000;
+    float minx = -800;
+    float miny = -800;
+    float minz = -800;
+    float maxx = 800;
+    float maxy = 800;
+    float maxz = 800;
     
     if (position.x > maxx){
         position.x = maxx;
@@ -101,12 +107,18 @@ void AttractionParticle::bounceOffWalls(){
 }
 
 void AttractionParticle::throughOfWalls(){
-    float minx = 0;
-    float miny = 0;
-    float minz = 0;
-    float maxx = 2000;
-    float maxy = 2000;
-    float maxz = 2000;
+    //float minx = 0;
+    //float miny = 0;
+    //float minz = 0;
+    //float maxx = 2000;
+    //float maxy = 2000;
+    //float maxz = 2000;
+    float minx = -800;
+    float miny = -800;
+    float minz = -800;
+    float maxx = 800;
+    float maxy = 800;
+    float maxz = 800;
     
     
     if (position.x < minx) {
