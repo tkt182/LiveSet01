@@ -20,19 +20,26 @@ public:
     
     OFX_LAYER_DEFINE_LAYER_CLASS(SimpleSphere);
     
-    RaiseParticles particles;
+    //RaiseParticles particles;
+    deque<RaiseParticles> parts;
+    bool pressFlag = false;
+    
     
     void setup(){
         $Context(RollCam)->setup();
-        cout << "LM0 setup" << endl;
-        
+        RaiseParticles *particle = new RaiseParticles();
+        parts.push_back(*particle);
     }
     
     void update(){
         setGLParam();
         keyEvent();
         $Context(RollCam)->update();
-        particles.update();
+        //particles.update();
+        deque<RaiseParticles>::iterator itr = parts.begin();
+        for(itr; itr != parts.end(); itr++){
+            itr->update();
+        }
     }
     
     void draw(){
@@ -40,8 +47,13 @@ public:
         ofBackground(0);
         $Context(RollCam)->begin();
         ofSetColor(255, 0, 255, 255);
-        particles.draw();
+        //particles.draw();
+        deque<RaiseParticles>::iterator itr = parts.begin();
+        for(itr; itr != parts.end(); itr++){
+            itr->draw();
+        }
         $Context(RollCam)->end();
+
     }
 
 private:
@@ -55,7 +67,26 @@ private:
     void keyEvent(){
         int key = $Context(KeyboardControl)->getPressedKey();
         if (key == 'a') {
-            particles.setCurrentTime();
+            //particles.setCurrentTime();
+            if(parts.size() >= 2){
+                parts.pop_front();
+            }
+            
+            deque<RaiseParticles>::iterator itr = parts.begin();
+            if(parts.size() == 1){
+                itr->setCurrentTime();
+                RaiseParticles *particle = new RaiseParticles();
+                parts.push_back(*particle);
+            }else{
+                RaiseParticles *particle = new RaiseParticles();
+                parts.push_back(*particle);
+                parts.end()->setCurrentTime();
+                itr->setCurrentTime();
+            }
+            
+            //RaiseParticles *particle = new RaiseParticles();
+            //parts.push_back(*particle);
+            
         }
         if (key == 'z') {
             $Context(RollCam)->setRandomPos();

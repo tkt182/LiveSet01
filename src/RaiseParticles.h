@@ -11,6 +11,7 @@
 
 #include "ofMain.h"
 #include "ofxEasing.h"
+#include "ofxTween.h"
 
 class RaiseParticles {
 public:
