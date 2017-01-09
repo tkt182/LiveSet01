@@ -32,10 +32,10 @@ public:
     
     
     void setup(){
-        
+
         $Context(RollCam)->setup();
         mesh.setMode(OF_PRIMITIVE_POINTS);
-        glPointSize(1.0);
+        //glPointSize(1.0);
         
         swidth = ofGetWidth();
         sheight = ofGetHeight();
@@ -64,6 +64,7 @@ public:
     
     void update(){
         
+        setGLParam();
         keyEvent();
         $Context(RollCam)->update();
         
@@ -100,6 +101,13 @@ public:
     }
     
 private:
+    
+    void setGLParam(){
+        static GLfloat distance[] = { 1.0, 0.0, 0.0 };
+        glPointParameterfv(GL_POINT_DISTANCE_ATTENUATION, distance);
+        glPointSize(1.0);
+    }
+    
     
     void keyEvent(){
 

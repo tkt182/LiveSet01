@@ -2,7 +2,12 @@
 
 RaiseParticles::RaiseParticles(){
     
-    glPointSize(2.0);
+    //static GLfloat distance[] = { 0.0, 0.0, 1.0 };
+    //static GLfloat distance[] = { 1.0, 0.0, 0.0 };
+    //glGetFloatv(GL_POINT_DISTANCE_ATTENUATION, defaultDistance);
+    //glPointParameterfv(GL_POINT_DISTANCE_ATTENUATION, distance);
+    //glPointSize(10000.0);
+    
     billboards.setUsage(GL_DYNAMIC_DRAW);
     billboards.setMode(OF_PRIMITIVE_POINTS);
     

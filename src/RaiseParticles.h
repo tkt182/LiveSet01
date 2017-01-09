@@ -30,6 +30,7 @@ public:
     float initTime;
     float endPosition;
     
+    GLfloat defaultDistance[3];
     ofVboMesh billboards;
     
 };

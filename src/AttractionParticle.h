@@ -46,4 +46,8 @@ public:
     bool bFixed;
     // パーティクルの質量
     float mass;
+    
+private:
+    void setGLParam();
+    
 };

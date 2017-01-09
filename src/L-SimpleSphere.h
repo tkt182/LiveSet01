@@ -29,6 +29,7 @@ public:
     }
     
     void update(){
+        setGLParam();
         keyEvent();
         $Context(RollCam)->update();
         particles.update();
@@ -44,6 +45,12 @@ public:
     }
 
 private:
+    
+    void setGLParam(){
+        static GLfloat distance[] = { 0.0, 0.0, 1.0 };
+        glPointParameterfv(GL_POINT_DISTANCE_ATTENUATION, distance);
+        glPointSize(10000.0);
+    }
     
     void keyEvent(){
         int key = $Context(KeyboardControl)->getPressedKey();
