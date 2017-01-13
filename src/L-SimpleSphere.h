@@ -39,7 +39,6 @@ public:
         //particles.update();
         deque<RaiseParticles>::iterator itr = parts.begin();
         for(itr; itr != parts.end(); itr++){
-            cout << "ID : " << i << endl;
             itr->update();
             i++;
         }

@@ -29,6 +29,8 @@ public:
     int swidth, sheight, sdepth;
     
     deque<ofVec3f> positions;
+    deque<float> initY;
+    deque<float> endY;
     deque<float> movePosition;
     float now;
     float initTime;
