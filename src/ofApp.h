@@ -3,7 +3,7 @@
 #include "ofMain.h"
 #include "ofxAnimationPrimitives.h"
 #include "ofxGlobalContext.h"
-
+#include "ofxPostGlitch.h"
 
 
 class ofApp : public ofBaseApp{
@@ -30,4 +30,7 @@ class ofApp : public ofBaseApp{
         ofFbo finalFbo;
     
         ofxAnimationPrimitives::SceneManager SM;
+
+        /*Addon instance*/
+        ofxPostGlitch	myGlitch;
 };

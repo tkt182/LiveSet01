@@ -8,9 +8,9 @@ RaiseParticles::RaiseParticles(){
     maxParticles = 10000;
     numParticles = 0;
     
-    swidth = ofGetWidth()*5;
+    swidth = ofGetWidth()*4;
     sheight = ofGetHeight();
-    sdepth = ofGetWidth()*5;
+    sdepth = ofGetWidth()*4;
     
     // Easing
     //now      = -10000.f;
@@ -32,20 +32,12 @@ RaiseParticles::RaiseParticles(){
         positions.push_back(pos);
         billboards.addVertex(ofVec3f(positions[i].x, positions[i].y, positions[i].z));
 
-        float y = -sheight + ofRandom(-200, 200);
+        float y = -sheight + ofRandom(-250, 250);
         initY.push_back(y);
         endY.push_back(y + endPosition * 1.5);
         numParticles++;
     }
     
-    // Easing
-    //now      = -10000.f;
-    //initTime = 0.f;
-    //initTime = ofGetElapsedTimef();
-    //initTime = 10000.f;
-    //endPosition = sheight;
-    //isMove = false;
-    //finishMove = false;
 }
 
 RaiseParticles::~RaiseParticles(){

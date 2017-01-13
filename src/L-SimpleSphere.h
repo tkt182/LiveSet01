@@ -50,7 +50,7 @@ public:
         //cout << "Scene0: " << endl;
         ofBackground(0);
         $Context(RollCam)->begin();
-        ofSetColor(255, 0, 255, 255);
+        ofSetColor(255, 255, 255, 255);
         //particles.draw();
         deque<RaiseParticles>::iterator itr = parts.begin();
         for(itr; itr != parts.end(); itr++){

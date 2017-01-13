@@ -27,6 +27,7 @@ void ofApp::setup(){
     SM.changeScene("Scene0");
     
     finalFbo.allocate(ofGetWidth(), ofGetHeight());
+    myGlitch.setup(&finalFbo);
     
 }
 
@@ -42,6 +43,10 @@ void ofApp::draw(){
     SM.draw();
     finalFbo.end();
     
+    /* Apply effects */
+    myGlitch.generateFx();
+    
+    /* draw effected view */
     finalFbo.draw(0, 0);
 }
 
@@ -51,6 +56,18 @@ void ofApp::keyPressed(int key){
     if (key == '2') SM.changeScene<Scene1>();
     
     $Context(KeyboardControl)->setPressedKey(key);
+    
+    if (key == 'q') myGlitch.toggleFx(OFXPOSTGLITCH_CONVERGENCE);
+    if (key == 'w') myGlitch.toggleFx(OFXPOSTGLITCH_GLOW);
+    if (key == 'e') myGlitch.toggleFx(OFXPOSTGLITCH_SHAKER);
+    if (key == 'r') myGlitch.toggleFx(OFXPOSTGLITCH_CUTSLIDER);
+    if (key == 't') myGlitch.toggleFx(OFXPOSTGLITCH_TWIST);
+    if (key == 'y') myGlitch.toggleFx(OFXPOSTGLITCH_OUTLINE);
+    if (key == 'u') myGlitch.toggleFx(OFXPOSTGLITCH_NOISE);
+    if (key == 'i') myGlitch.toggleFx(OFXPOSTGLITCH_SLITSCAN);
+    if (key == 'o') myGlitch.toggleFx(OFXPOSTGLITCH_SWELL);
+    if (key == 'p') myGlitch.toggleFx(OFXPOSTGLITCH_INVERT);
+    
 }
 
 //--------------------------------------------------------------
