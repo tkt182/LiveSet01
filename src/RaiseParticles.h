@@ -11,7 +11,7 @@
 
 #include "ofMain.h"
 #include "ofxEasing.h"
-#include "ofxTween.h"
+//#include "ofxTween.h"
 
 class RaiseParticles {
 public:
@@ -21,6 +21,8 @@ public:
     void update();
     void draw();
     void setCurrentTime();
+    bool getMoveStatus();
+    bool getFinishMove();
     
     int numParticles;
     int maxParticles;
@@ -28,9 +30,12 @@ public:
     
     deque<ofVec3f> positions;
     deque<float> movePosition;
+    float now;
     float initTime;
     float endPosition;
     
+    bool isMove;
+    bool finishMove;
     GLfloat defaultDistance[3];
     ofVboMesh billboards;
     

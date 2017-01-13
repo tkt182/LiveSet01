@@ -27,9 +27,13 @@ RaiseParticles::RaiseParticles(){
     }
     
     // Easing
+    //now      = -10000.f;
     initTime = 0.f;
     //initTime = ofGetElapsedTimef();
+    initTime = 10000.f;
     endPosition = sheight;
+    isMove = false;
+    finishMove = false;
     
 
 }
@@ -43,13 +47,30 @@ void RaiseParticles::update(){
     float duration = 2.f;
     float endTime = initTime + duration;
     float now = ofGetElapsedTimef();
+    float tmpY = sheight;
     
     for(int i = 0; i < positions.size(); i++){
         ofVec3f pos = positions[i];
         positions[i].y = ofxeasing::map_clamp(now, initTime, endTime, -sheight, endPosition, &ofxeasing::linear::easeIn);
         //positions[i].y = ofxeasing::map_clamp(now, initTime, endTime, 0, endPosition, &ofxeasing::linear::easeIn);
+
+        if(positions[i].y < tmpY){
+            tmpY = positions[i].y;
+        }
+        
         billboards.getVertices()[i].set(pos);
     }
+    
+    if(tmpY < sheight && initTime < 10000){
+        isMove = true;
+    }else{
+        isMove = false;
+    }
+    
+    if(tmpY >= sheight){
+        finishMove = true;
+    }
+    
 
 }
 
@@ -58,5 +79,15 @@ void RaiseParticles::draw(){
 }
 
 void RaiseParticles::setCurrentTime(){
+    //now      = ofGetElapsedTimef();
     initTime = ofGetElapsedTimef();
+}
+
+bool RaiseParticles::getMoveStatus(){
+    return isMove;
+}
+
+bool RaiseParticles::getFinishMove(){
+    cout << "finishMove : " << finishMove << endl;
+    return finishMove;
 }

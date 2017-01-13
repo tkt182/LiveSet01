@@ -32,14 +32,19 @@ public:
     }
     
     void update(){
+        int i = 0;
         setGLParam();
         keyEvent();
         $Context(RollCam)->update();
         //particles.update();
         deque<RaiseParticles>::iterator itr = parts.begin();
         for(itr; itr != parts.end(); itr++){
+            cout << "ID : " << i << endl;
             itr->update();
+            i++;
         }
+        //parts.end()->update();
+        
     }
     
     void draw(){
@@ -67,25 +72,32 @@ private:
     void keyEvent(){
         int key = $Context(KeyboardControl)->getPressedKey();
         if (key == 'a') {
-            //particles.setCurrentTime();
-            if(parts.size() >= 2){
-                parts.pop_front();
-            }
             
             deque<RaiseParticles>::iterator itr = parts.begin();
             if(parts.size() == 1){
-                itr->setCurrentTime();
-                RaiseParticles *particle = new RaiseParticles();
-                parts.push_back(*particle);
-            }else{
-                RaiseParticles *particle = new RaiseParticles();
-                parts.push_back(*particle);
-                parts.end()->setCurrentTime();
-                itr->setCurrentTime();
+                if(itr->getFinishMove()){
+                    RaiseParticles *particle = new RaiseParticles();
+                    parts.push_back(*particle);
+                    itr++;
+                    itr->setCurrentTime();
+                }else{
+                    itr->setCurrentTime();
+                }
+            }else if(parts.size() == 2){
+                //parts.pop_front();
+                //itr = parts.begin();
+                itr = parts.begin();
+                itr++;
+
+                if(itr->getFinishMove()){
+                    parts.pop_front();
+                    itr = parts.begin();
+                    RaiseParticles *particle = new RaiseParticles();
+                    parts.push_back(*particle);
+                    itr++;
+                    itr->setCurrentTime();
+                }
             }
-            
-            //RaiseParticles *particle = new RaiseParticles();
-            //parts.push_back(*particle);
             
         }
         if (key == 'z') {

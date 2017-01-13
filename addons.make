@@ -8,5 +8,6 @@ ofxOsc
 ofxPostGlitch
 ofxRollingCam
 ofxThreadedImageLoader
+ofxTween
 ofxTwistedRibbon
 ofxVboParticles
