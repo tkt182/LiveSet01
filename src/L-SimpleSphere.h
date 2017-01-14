@@ -23,6 +23,7 @@ public:
     //RaiseParticles particles;
     deque<RaiseParticles> parts;
     bool pressFlag = false;
+    float angle = 0.f;
     
     
     void setup(){
@@ -36,26 +37,29 @@ public:
         setGLParam();
         keyEvent();
         $Context(RollCam)->update();
-        //particles.update();
         deque<RaiseParticles>::iterator itr = parts.begin();
         for(itr; itr != parts.end(); itr++){
             itr->update();
             i++;
         }
-        //parts.end()->update();
         
     }
     
     void draw(){
-        //cout << "Scene0: " << endl;
         ofBackground(0);
         $Context(RollCam)->begin();
         ofSetColor(255, 255, 255, 255);
-        //particles.draw();
-        deque<RaiseParticles>::iterator itr = parts.begin();
-        for(itr; itr != parts.end(); itr++){
-            itr->draw();
+        
+        ofPushMatrix();
+        {
+            ofRotateY(angle);
+            deque<RaiseParticles>::iterator itr = parts.begin();
+            for(itr; itr != parts.end(); itr++){
+                itr->draw();
+            }
+            angle += 0.1;
         }
+        ofPopMatrix();
         $Context(RollCam)->end();
 
     }
