@@ -23,7 +23,8 @@ public:
     vector<AttractionParticle> particles;
     ofVboMesh mesh;
     bool atraction;
-    static const int NUM = 150000;
+    static const int NUM = 40000;
+    float angle = 0.0;
     
     ofVec3f center;
     int swidth, sheight, sdepth;
@@ -38,15 +39,18 @@ public:
         //glPointSize(1.0);
         
         swidth = ofGetWidth();
-        sheight = ofGetHeight();
-        sdepth  = 480;
+        //sheight = ofGetHeight();
+        //sdepth  = 480;
+        sheight = swidth;
+        sdepth = swidth;
+        
         
         for (int i = 0; i < NUM; i++) {
             AttractionParticle p;
             p.friction = 0.002;
-            p.setup(ofVec3f(ofRandom(-swidth, swidth),
-                            ofRandom(-sheight, sheight),
-                            ofRandom(-sdepth, sdepth)),
+            p.setup(ofVec3f(ofRandom(-swidth / 2, swidth / 2),
+                            ofRandom(-sheight / 2, sheight / 2),
+                            ofRandom(-sdepth / 2, sdepth / 2)),
                             ofVec3f(0, 0, 0));
             particles.push_back(p);
         }
@@ -71,7 +75,7 @@ public:
         for (int i = 0; i < particles.size(); i++){
             particles[i].resetForce();
             if (atraction) {
-                particles[i].addAttractionForce(center.x, center.y, center.z, swidth, 0.1);
+                particles[i].addAttractionForce(center.x, center.y, center.z, swidth, 0.2);
             }
             particles[i].update();
             particles[i].throughOfWalls();
@@ -83,12 +87,14 @@ public:
         ofSetColor(255);
         
         ofPushMatrix();
-        //ofRotateY(rotation);
         $Context(RollCam)->begin();
+        ofPushMatrix();
+        ofRotateY(angle);
         for (int i = 0; i < particles.size(); i++) {
             mesh.addVertex(ofVec3f(particles[i].position.x, particles[i].position.y, particles[i].position.z));
         }
         mesh.draw();
+        ofPopMatrix();
         $Context(RollCam)->end();
         
         if (atraction) {
@@ -96,7 +102,9 @@ public:
         } else {
             ofSetColor(0, 255, 255);
         }
+        ofPopMatrix();
         
+        angle += 0.1;
         //rotation += 0.5;
     }
     
@@ -105,7 +113,7 @@ private:
     void setGLParam(){
         static GLfloat distance[] = { 1.0, 0.0, 0.0 };
         glPointParameterfv(GL_POINT_DISTANCE_ATTENUATION, distance);
-        glPointSize(1.0);
+        glPointSize(2.0);
     }
     
     
@@ -120,6 +128,12 @@ private:
         }
         if (key == 'z') {
             $Context(RollCam)->setRandomPos();
+        }
+        if (key == 'x') {
+            $Context(RollCam)->setRandomScale();
+        }
+        if (key == 'c') {
+            $Context(RollCam)->setDefaultScale();
         }
     }
 };

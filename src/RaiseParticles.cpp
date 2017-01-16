@@ -32,9 +32,9 @@ RaiseParticles::RaiseParticles(){
         positions.push_back(pos);
         billboards.addVertex(ofVec3f(positions[i].x, positions[i].y, positions[i].z));
 
-        float y = -sheight + ofRandom(-250, 250);
+        float y = -sheight + ofRandom(-500, 500);
         initY.push_back(y);
-        endY.push_back(y + endPosition * 1.5);
+        endY.push_back(y + endPosition * 2.0);
         numParticles++;
     }
     
@@ -46,7 +46,7 @@ RaiseParticles::~RaiseParticles(){
 
 void RaiseParticles::update(){
     
-    float duration = 2.f;
+    float duration = 5.f;
     float endTime = initTime + duration;
     float now = ofGetElapsedTimef();
     float tmpY;

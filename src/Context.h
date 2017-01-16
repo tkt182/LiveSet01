@@ -56,6 +56,14 @@ public:
     void setRandomPos(){
         rollCam.setRandomPos(270);
     }
+    
+    void setRandomScale(){
+        rollCam.setRandomScale(1.0, 10.0);
+    }
+    
+    void setDefaultScale(){
+        rollCam.setScale(1.0);
+    }
 };
 
 

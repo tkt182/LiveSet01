@@ -144,7 +144,7 @@ void AttractionParticle::throughOfWalls(){
 
 // 描画
 void AttractionParticle::draw(){
-    ofCircle(position, 0.1);
+    ofCircle(position, 1.0);
 }
 
 // 反発する力

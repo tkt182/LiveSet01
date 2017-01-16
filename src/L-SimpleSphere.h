@@ -106,6 +106,12 @@ private:
         if (key == 'z') {
             $Context(RollCam)->setRandomPos();
         }
+        if (key == 'x') {
+            $Context(RollCam)->setRandomScale();
+        }
+        if (key == 'c') {
+            $Context(RollCam)->setDefaultScale();
+        }
     }
     
 };
