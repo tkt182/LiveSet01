@@ -11,6 +11,7 @@
 
 #include "Scene0.h"
 #include "Scene1.h"
+#include "Scene2.h"
 
 
 #endif /* Scenes_h */

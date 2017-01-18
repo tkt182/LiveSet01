@@ -16,9 +16,11 @@
 //#include "Layer0.h"
 #include "L-SimpleSphere.h"
 #include "L-Attraction.h"
+#include "L-ParticleSystem.h"
 
 ofxLayer::Manager LM0;
 ofxLayer::Manager LM1;
+ofxLayer::Manager LM2;
 
 
 void init_layers(){
@@ -27,6 +29,10 @@ void init_layers(){
 
 void init_layers1(){
     LM1.createLayer<Attraction>(1);
+}
+
+void init_layers2(){
+    LM2.createLayer<ParticleSimulation>(1);
 }
 
 

@@ -200,6 +200,9 @@
 		F634AA6CA2E3C60F3B87B59A /* ofxRtMidiIn.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxRtMidiIn.cpp; path = ../../../addons/ofxMidi/src/desktop/ofxRtMidiIn.cpp; sourceTree = SOURCE_ROOT; };
 		F7832BFD5E9E9647428FFEFB /* InstanceManager.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = InstanceManager.h; path = ../../../addons/ofxAnimationPrimitives/src/ofxAnimationPrimitives/InstanceManager.h; sourceTree = SOURCE_ROOT; };
 		F7FBC56859535E597B24BB91 /* NetworkingUtils.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = NetworkingUtils.h; path = ../../../addons/ofxOsc/libs/oscpack/src/ip/NetworkingUtils.h; sourceTree = SOURCE_ROOT; };
+		F88CC5741E2E3970006432AA /* ParticleSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParticleSystem.h; sourceTree = "<group>"; };
+		F88CC5761E2E3BBC006432AA /* L-ParticleSystem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "L-ParticleSystem.h"; sourceTree = "<group>"; };
+		F88CC5791E2F9717006432AA /* Scene2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Scene2.h; sourceTree = "<group>"; };
 		FCCA27395E19710B944A6C08 /* Composition.inc.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = Composition.inc.h; path = ../../../addons/ofxAnimationPrimitives/src/ofxAnimationPrimitives/detail/Composition.inc.h; sourceTree = SOURCE_ROOT; };
 		FF2B018E24837032A4878576 /* ofxEasing.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxEasing.h; path = ../../../addons/ofxEasing/src/ofxEasing.h; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -614,13 +617,16 @@
 				C7A40E5429BCB26EB5764F8C /* Context.h */,
 				884D7C409E1969A16112E907 /* L-Attraction.h */,
 				8E3D4520E423838085FB5C63 /* L-SimpleSphere.h */,
+				F88CC5761E2E3BBC006432AA /* L-ParticleSystem.h */,
 				602950C456DF1C4803CB15F7 /* Layer0.h */,
 				9BC0C4355A4E837DD67A7094 /* Layers.h */,
 				0BFC10D1B151DFF240C8BDCF /* RaiseParticles.cpp */,
 				F4792A9BBBFE2291B95160E0 /* RaiseParticles.h */,
 				9B2082C64A4E712462FEE610 /* Scene0.h */,
 				18BA419E921FA5E8DA97F58E /* Scene1.h */,
+				F88CC5791E2F9717006432AA /* Scene2.h */,
 				98FBF656A0A31A86630667F0 /* Scenes.h */,
+				F88CC5741E2E3970006432AA /* ParticleSystem.h */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
