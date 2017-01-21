@@ -27,18 +27,53 @@ public:
     }
     
     void update(){
+        setGLParam();
+        keyEvent();
+        $Context(RollCam)->update();
     }
     
     void draw(){
-        ofBackground(0);
+        ofBackground(255);
+        //ofBackground(0);
         
         $Context(RollCam)->begin();
         ofPushMatrix();
         {
             particles.draw();
         }
+        ofPopMatrix();
         $Context(RollCam)->end();
         
+    }
+
+private:
+    
+    void setGLParam(){
+        static GLfloat distance[] = { 1.0, 0.0, 0.0 };
+        //static GLfloat distance[] = { 0.0, 0.0, 1.0 };
+        glPointParameterfv(GL_POINT_DISTANCE_ATTENUATION, distance);
+        ofDisableArbTex();
+        //ofEnableNormalizedTexCoords();
+        //ofEnablePointSprites();
+        //glAlphaFunc(GL_GEQUAL, 0.5);
+        //glEnable(GL_ALPHA_TEST);
+        glPointSize(10.0);
+        //ofDisableAlphaBlending();
+    }
+    
+    
+    void keyEvent(){
+        
+        int key = $Context(KeyboardControl)->getPressedKey();
+        if (key == 'z') {
+            $Context(RollCam)->setRandomPos();
+        }
+        if (key == 'x') {
+            $Context(RollCam)->setRandomScale();
+        }
+        if (key == 'c') {
+            $Context(RollCam)->setDefaultScale();
+        }
     }
     
 

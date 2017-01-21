@@ -10,6 +10,7 @@
 #define ParticleSystem_h
 
 #include "ofMain.h"
+#include "ofxBillboard.h"
 
 #define	MAX_PARTICLES	1000
 
@@ -45,7 +46,9 @@ public:
         {0.5f,0.5f,1.0f},{0.75f,0.5f,1.0f},{1.0f,0.5f,1.0f},{1.0f,0.5f,0.75f}
     };
     
-    ofTexture texture;
+    ofImage texture;
+    ofTexture tex1;
+    ofVec3f camPos;
     
     float	slowdown=2.0f;				// Slow Down Particles
     float	xspeed;						// Base X Speed (To Allow Keyboard Direction Of Tail)
@@ -58,7 +61,8 @@ public:
     
     
     void loadTexture(){
-        ofLoadImage(texture, "Particle.bmp");
+        //ofLoadImage(texture, "Particle.bmp");
+        texture.load("particle32.png");
     }
     
     void setup(){
@@ -79,6 +83,7 @@ public:
         }
         
         loadTexture();
+        
     }
     
     void update(){
@@ -87,23 +92,56 @@ public:
     
     void draw(){
         col = 0;
+        //ofEnablePointSprites();
         
+        //enableBillboardRotation();
+        ofxBillboardBeginSphericalCheat(
+            ofVec3f(particle[0].x, particle[0].y, particle[0].z + 60.f)
+        );
         for (int loop=0;loop<MAX_PARTICLES;loop++){					// Loop Through All The Particles
             if (particle[loop].active)							// If The Particle Is Active
             {
                 float x=particle[loop].x;						// Grab Our Particle X Position
                 float y=particle[loop].y;						// Grab Our Particle Y Position
-                float z=particle[loop].z+zoom;					// Particle Z Pos + Zoom
+                float z=particle[loop].z + 60;					// Particle Z Pos + Zoom
                 
+                ofMesh mesh;
+                mesh.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
+                //mesh.setMode(OF_PRIMITIVE_POINTS);
+                //mesh.addVertex(ofVec3f(x, y, z));
+                
+                
+                mesh.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
+                //mesh.addTexCoord( ofPoint( 1, 1 ) );
+                mesh.addTexCoord( ofPoint(32, 32));
+                mesh.addVertex(ofVec3f(x+4.f,y+4.f,z));
+                
+                //mesh.addTexCoord( ofPoint( 0, 1 ) );
+                mesh.addTexCoord( ofPoint( 0, 32 ) );
+                mesh.addVertex(ofVec3f(x-4.f,y+4.f,z));
+                
+
+                //mesh.addTexCoord( ofPoint( 1, 0 ) );
+                mesh.addTexCoord(ofPoint( 32, 0) );
+                mesh.addVertex(ofVec3f(x+4.f,y-4.f,z));
+                
+                //mesh.addTexCoord( ofPoint( 0, 0 ) );
+                mesh.addTexCoord( ofPoint( 0, 0 ) );
+                mesh.addVertex(ofVec3f(x-4.f,y-4.f,z));
+                 
                 // Draw The Particle Using Our RGB Values, Fade The Particle Based On It's Life
                 glColor4f(particle[loop].r,particle[loop].g,particle[loop].b,particle[loop].life);
-                
-                glBegin(GL_TRIANGLE_STRIP);						// Build Quad From A Triangle Strip
-                glTexCoord2d(1,1); glVertex3f(x+0.5f,y+0.5f,z); // Top Right
-                glTexCoord2d(0,1); glVertex3f(x-0.5f,y+0.5f,z); // Top Left
-                glTexCoord2d(1,0); glVertex3f(x+0.5f,y-0.5f,z); // Bottom Right
-                glTexCoord2d(0,0); glVertex3f(x-0.5f,y-0.5f,z); // Bottom Left
-                glEnd();										// Done Building Triangle Strip
+                //glEnable(GL_TEXTURE_2D);
+                texture.bind();
+                //texture.draw(0, 0, 600, 600);
+                mesh.draw();
+                //glBegin(GL_TRIANGLE_STRIP);						// Build Quad From A Triangle Strip
+                //glTexCoord2d(1,1); glVertex3f(x+0.5f,y+0.5f,z); // Top Right
+                //glTexCoord2d(0,1); glVertex3f(x-0.5f,y+0.5f,z); // Top Left
+                //glTexCoord2d(1,0); glVertex3f(x+0.5f,y-0.5f,z); // Bottom Right
+                //glTexCoord2d(0,0); glVertex3f(x-0.5f,y-0.5f,z); // Bottom Left
+                //glEnd();										// Done Building Triangle Strip
+                texture.unbind();
                 
                 particle[loop].x+=particle[loop].xi/(slowdown*1000);// Move On The X Axis By X Speed
                 particle[loop].y+=particle[loop].yi/(slowdown*1000);// Move On The Y Axis By Y Speed
@@ -143,7 +181,7 @@ public:
                 if (keys[VK_NUMPAD4] && (particle[loop].xg>-1.5f)) particle[loop].xg-=0.01f;
                 
                 if (keys[VK_TAB])										// Tab Key Causes A Burst
-                {
+                {B
                     particle[loop].x=0.0f;								// Center On X Axis
                     particle[loop].y=0.0f;								// Center On Y Axis
                     particle[loop].z=0.0f;								// Center On Z Axis
@@ -154,6 +192,21 @@ public:
                 */
             }
         }
+        ofxBillboardEnd();
+        //ofDisablePointSprites();
+        //disableBillboardRotation();
+    }
+    
+    void enableBillboardRotation(){
+        ofxBillboardBeginSphericalCheat(camPos);
+    }
+    
+    void disableBillboardRotation(){
+        ofPopMatrix();
+    }
+    
+    void setBillboardRotation(ofVec3f tmpCamPos){
+        camPos = tmpCamPos;
     }
     
 };

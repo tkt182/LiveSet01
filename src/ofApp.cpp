@@ -26,7 +26,7 @@ void ofApp::setup(){
     SM.addScene<Scene1>();
     SM.addScene<Scene2>();
     
-    SM.changeScene("Scene0");
+    SM.changeScene("Scene2");
     
     finalFbo.allocate(ofGetWidth(), ofGetHeight());
     myGlitch.setup(&finalFbo);

@@ -1,4 +1,5 @@
 ofxAnimationPrimitives
+ofxBillboard
 ofxEasing
 ofxFft
 ofxGlobalContext
@@ -8,6 +9,5 @@ ofxOsc
 ofxPostGlitch
 ofxRollingCam
 ofxThreadedImageLoader
-ofxTween
 ofxTwistedRibbon
 ofxVboParticles

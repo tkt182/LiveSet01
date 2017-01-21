@@ -46,6 +46,7 @@ RaiseParticles::~RaiseParticles(){
 
 void RaiseParticles::update(){
     
+    
     float duration = 5.f;
     float endTime = initTime + duration;
     float now = ofGetElapsedTimef();

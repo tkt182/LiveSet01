@@ -64,6 +64,14 @@ public:
     void setDefaultScale(){
         rollCam.setScale(1.0);
     }
+    
+    ofVec3f getPosS(){
+        rollCam.getPosS();
+    }
+    
+    ofVec3f getPosN(){
+        rollCam.getPosN();
+    }
 };
 
 
