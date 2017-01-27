@@ -14,6 +14,7 @@ void ofApp::switchScene(int &temp){
 //--------------------------------------------------------------
 void ofApp::setup(){
     
+    ofHideCursor();
     ofSetVerticalSync(true);
     ofSetFrameRate(60);
     ofBackground(0);
@@ -25,8 +26,9 @@ void ofApp::setup(){
     SM.addScene<Scene0>();
     SM.addScene<Scene1>();
     SM.addScene<Scene2>();
+    SM.addScene<Scene3>();
     
-    SM.changeScene("Scene2");
+    SM.changeScene("Scene0");
     
     finalFbo.allocate(ofGetWidth(), ofGetHeight());
     myGlitch.setup(&finalFbo);
@@ -57,6 +59,7 @@ void ofApp::keyPressed(int key){
     if (key == '1') SM.changeScene<Scene0>();
     if (key == '2') SM.changeScene<Scene1>();
     if (key == '3') SM.changeScene<Scene2>();
+    if (key == '4') SM.changeScene<Scene3>();
     
     $Context(KeyboardControl)->setPressedKey(key);
     

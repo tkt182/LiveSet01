@@ -114,20 +114,20 @@ public:
                 mesh.setMode(OF_PRIMITIVE_TRIANGLE_STRIP);
                 //mesh.addTexCoord( ofPoint( 1, 1 ) );
                 mesh.addTexCoord( ofPoint(32, 32));
-                mesh.addVertex(ofVec3f(x+4.f,y+4.f,z));
+                mesh.addVertex(ofVec3f(x+40.f,y+40.f,z));
                 
                 //mesh.addTexCoord( ofPoint( 0, 1 ) );
                 mesh.addTexCoord( ofPoint( 0, 32 ) );
-                mesh.addVertex(ofVec3f(x-4.f,y+4.f,z));
+                mesh.addVertex(ofVec3f(x-40.f,y+40.f,z));
                 
 
                 //mesh.addTexCoord( ofPoint( 1, 0 ) );
                 mesh.addTexCoord(ofPoint( 32, 0) );
-                mesh.addVertex(ofVec3f(x+4.f,y-4.f,z));
+                mesh.addVertex(ofVec3f(x+40.f,y-40.f,z));
                 
                 //mesh.addTexCoord( ofPoint( 0, 0 ) );
                 mesh.addTexCoord( ofPoint( 0, 0 ) );
-                mesh.addVertex(ofVec3f(x-4.f,y-4.f,z));
+                mesh.addVertex(ofVec3f(x-40.f,y-40.f,z));
                  
                 // Draw The Particle Using Our RGB Values, Fade The Particle Based On It's Life
                 glColor4f(particle[loop].r,particle[loop].g,particle[loop].b,particle[loop].life);

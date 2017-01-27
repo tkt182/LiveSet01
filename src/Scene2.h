@@ -20,7 +20,6 @@ public:
     OFX_ANIMATION_PRIMITIVES_DEFINE_SCENE(Scene2);
     
     Scene2(){
-        cout << "Scene2: " << endl;
         LM2.setup(ofGetWidth(), ofGetHeight());
         init_layers2();
     }

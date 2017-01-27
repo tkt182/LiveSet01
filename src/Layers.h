@@ -17,10 +17,12 @@
 #include "L-SimpleSphere.h"
 #include "L-Attraction.h"
 #include "L-ParticleSystem.h"
+#include "L-LineParticle.h"
 
 ofxLayer::Manager LM0;
 ofxLayer::Manager LM1;
 ofxLayer::Manager LM2;
+ofxLayer::Manager LM3;
 
 
 void init_layers(){
@@ -33,6 +35,10 @@ void init_layers1(){
 
 void init_layers2(){
     LM2.createLayer<ParticleSimulation>(1);
+}
+
+void init_layers3(){
+    LM3.createLayer<LineParticle>(1);
 }
 
 
