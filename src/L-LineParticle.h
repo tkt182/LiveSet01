@@ -30,6 +30,7 @@ public:
     }
     
     void update(){
+        setGLParam();
         keyEvent();
         $Context(RollCam)->update();
         lineParticles.update();
@@ -54,11 +55,15 @@ private:
     void setGLParam(){
         static GLfloat distance[] = { 0.0, 0.0, 1.0 };
         glPointParameterfv(GL_POINT_DISTANCE_ATTENUATION, distance);
-        glPointSize(10000.0);
+        glPointSize(5000.0);
     }
     
     void keyEvent(){
         int key = $Context(KeyboardControl)->getPressedKey();
+        if (key == 'a') {
+            lineParticles.setLineGroup();
+        }
+        
         if (key == 'z') {
             $Context(RollCam)->setRandomPos();
         }

@@ -16,6 +16,7 @@ LineParticles::LineParticles(){
     slides = 20;
     radius = 100;
     
+    
     for(int i=0; i<20; i++){
         
         float angle1 = TWO_PI/slides*i;
@@ -32,10 +33,16 @@ LineParticles::LineParticles(){
             float z=cos(angle2)*radius*bz;
         
             spherePoints.push_back(ofVec3f(x,y,z));
+            
+            velocity.push_back(
+                ofVec3f(ofRandom(10.), ofRandom(10.), ofRandom(10.))
+            );
+            
         }
     }
     
     sphereGeom.setMode(OF_PRIMITIVE_POINTS);
+    sphereLineGeom.setMode(OF_PRIMITIVE_LINES);
 }
 
 LineParticles::~LineParticles(){
@@ -47,8 +54,36 @@ void LineParticles::update(){
     for(itr = spherePoints.begin(); itr != spherePoints.end(); itr++){
         sphereGeom.addVertex(*(itr));
     }
+    
+    vector<ofVec3f>::iterator itrL;
+    for(itrL = sphereLinePoints.begin(); itrL != sphereLinePoints.end(); itrL++){
+        sphereLineGeom.addVertex(*(itrL));
+    }
+    
+    
 }
+
 
 void LineParticles::draw(){
     sphereGeom.draw();
+    sphereLineGeom.draw();
 }
+
+
+void LineParticles::setLineGroup(){
+
+    sphereLinePoints.clear();
+    sphereLineGeom.clear();
+    
+    int maxLineParticlepNum = spherePoints.size();
+    int lineParticleNum     = ofRandom(10, maxLineParticlepNum);
+    
+    for(int i = 0; i < lineParticleNum; i++){
+        int target = ofRandom(0, spherePoints.size());
+        sphereLinePoints.push_back(spherePoints[target]);
+    }
+
+}
+
+
+

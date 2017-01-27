@@ -19,6 +19,8 @@ public:
     
     void update();
     void draw();
+    void setLineGroup();
+    
     
     int circleResolution;
     int slides;
@@ -26,7 +28,11 @@ public:
     
     
     vector<ofVec3f> spherePoints;
+    vector<ofVec3f> sphereLinePoints;
+    vector<ofVec3f> velocity;
     ofVboMesh sphereGeom;
+    ofVboMesh sphereLineGeom;
+    
     
 };
 
