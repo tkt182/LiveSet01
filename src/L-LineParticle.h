@@ -61,7 +61,7 @@ private:
     void keyEvent(){
         int key = $Context(KeyboardControl)->getPressedKey();
         if (key == 'a') {
-            lineParticles.setLineGroup();
+            lineParticles.resetParticlePosition();
         }
         
         if (key == 'z') {

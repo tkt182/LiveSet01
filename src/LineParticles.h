@@ -11,6 +11,7 @@
 
 #include "ofMain.h"
 
+
 class LineParticles {
     
 public:
@@ -20,18 +21,31 @@ public:
     void update();
     void draw();
     void setLineGroup();
+    void resetParticlePosition();
     
     
     int circleResolution;
     int slides;
     int radius;
+    int particleNum;
     
     
     vector<ofVec3f> spherePoints;
     vector<ofVec3f> sphereLinePoints;
     vector<ofVec3f> velocity;
+    vector<ofVec3f> particlePoints;
+    
+    ofVboMesh renderedGeom;
+    ofVboMesh renderedLineGeom;
     ofVboMesh sphereGeom;
     ofVboMesh sphereLineGeom;
+    
+    typedef struct{
+        int numConnections;
+        float velocity;
+    } tPData;
+    
+    vector<tPData> particlesData;
     
     
 };

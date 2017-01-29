@@ -15,9 +15,9 @@ LineParticles::LineParticles(){
     circleResolution = 20;
     slides = 20;
     radius = 100;
+    particleNum = circleResolution*circleResolution;
     
-    
-    for(int i=0; i<20; i++){
+    for(int i=0; i<circleResolution; i++){
         
         float angle1 = TWO_PI/slides*i;
         float bx = sin(angle1);
@@ -34,40 +34,84 @@ LineParticles::LineParticles(){
         
             spherePoints.push_back(ofVec3f(x,y,z));
             
-            velocity.push_back(
-                ofVec3f(ofRandom(10.), ofRandom(10.), ofRandom(10.))
-            );
+            //velocity.push_back(
+            //    ofVec3f(ofRandom(10.), ofRandom(10.), ofRandom(10.))
+            //);
             
         }
     }
     
-    sphereGeom.setMode(OF_PRIMITIVE_POINTS);
-    sphereLineGeom.setMode(OF_PRIMITIVE_LINES);
+    
+    for(int j=0; j<particleNum; j++){
+            
+        //float angle2=TWO_PI/circleResolution*j;
+        float x=ofRandom(-radius, radius);
+        float y=ofRandom(-radius, radius);
+        float z=ofRandom(-radius, radius);
+            
+        particlePoints.push_back(ofVec3f(x,y,z));
+            
+        //velocity.push_back(
+        //    ofVec3f(ofRandom(10.), ofRandom(10.), ofRandom(10.))
+        //);
+        tPData particleData;
+        particleData.numConnections = 0;
+        particleData.velocity = ofRandom((-10.f, 10.f));
+        
+        particlesData.push_back(particleData);
+        
+    }
+    
+    renderedGeom.setMode(OF_PRIMITIVE_POINTS);
+    renderedLineGeom.setMode(OF_PRIMITIVE_LINES);
 }
 
 LineParticles::~LineParticles(){
 }
 
 void LineParticles::update(){
+
+    float morphingSpeed = 0.05;
     
-    vector<ofVec3f>::iterator itr;
-    for(itr = spherePoints.begin(); itr != spherePoints.end(); itr++){
-        sphereGeom.addVertex(*(itr));
+    for(int i = 0; i < particleNum; i++){
+        
+        tPData particleData = particlesData[i];
+        ofVec3f currentPos  = particlePoints[i];
+        
+        particlePoints[i].x = currentPos.x*(1. - morphingSpeed)+spherePoints[i].x*morphingSpeed;
+        particlePoints[i].y = currentPos.y*(1. - morphingSpeed)+spherePoints[i].y*morphingSpeed;
+        particlePoints[i].z = currentPos.z*(1. - morphingSpeed)+spherePoints[i].z*morphingSpeed;
+        
     }
+
+    // Collision
+
     
+    /*
     vector<ofVec3f>::iterator itrL;
     for(itrL = sphereLinePoints.begin(); itrL != sphereLinePoints.end(); itrL++){
         sphereLineGeom.addVertex(*(itrL));
     }
-    
+    */
     
 }
 
 
 void LineParticles::draw(){
-    sphereGeom.draw();
-    sphereLineGeom.draw();
+    
+    renderedGeom.clear();
+    
+    vector<ofVec3f>::iterator itr;
+    for(itr = particlePoints.begin(); itr != particlePoints.end(); itr++){
+        renderedGeom.addVertex(*(itr));
+    }
+    
+    cout << particlePoints.size() << endl;
+    
+    renderedGeom.draw();
+    renderedLineGeom.draw();
 }
+
 
 
 void LineParticles::setLineGroup(){
@@ -84,6 +128,24 @@ void LineParticles::setLineGroup(){
     }
 
 }
+
+
+void LineParticles::resetParticlePosition(){
+    
+    vector<ofVec3f>::iterator itr;
+    
+    for(itr = particlePoints.begin(); itr != particlePoints.end(); itr++){
+        itr->x = ofRandom(-radius, radius);
+        itr->y = ofRandom(-radius, radius);
+        itr->z = ofRandom(-radius, radius);
+    
+    }
+    
+}
+
+
+
+
 
 
 
