@@ -34,6 +34,7 @@ public:
     vector<ofVec3f> sphereLinePoints;
     vector<ofVec3f> velocity;
     vector<ofVec3f> particlePoints;
+    vector<ofVec3f> linePoints;
     
     ofVboMesh renderedGeom;
     ofVboMesh renderedLineGeom;

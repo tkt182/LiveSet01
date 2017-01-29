@@ -72,6 +72,10 @@ LineParticles::~LineParticles(){
 void LineParticles::update(){
 
     float morphingSpeed = 0.05;
+    float minDistance   = 20.0;
+    int vertexIndex     = 0;
+
+    linePoints.clear();
     
     for(int i = 0; i < particleNum; i++){
         
@@ -81,10 +85,26 @@ void LineParticles::update(){
         particlePoints[i].x = currentPos.x*(1. - morphingSpeed)+spherePoints[i].x*morphingSpeed;
         particlePoints[i].y = currentPos.y*(1. - morphingSpeed)+spherePoints[i].y*morphingSpeed;
         particlePoints[i].z = currentPos.z*(1. - morphingSpeed)+spherePoints[i].z*morphingSpeed;
+       
+        for(int j = i + 1; j < particleNum; j++){
+            
+            if(particleData.numConnections >= 3) continue;
+            
+            float dx = particlePoints[i].x - particlePoints[j].x;
+            float dy = particlePoints[i].y - particlePoints[j].y;
+            float dz = particlePoints[i].z - particlePoints[j].z;
+            
+            float dist = sqrt(dx*dx + dy*dy + dz*dz);
+            
+            if(dist < minDistance){
+                particleData.numConnections++;
+                linePoints.push_back(particlePoints[i]);
+                linePoints.push_back(particlePoints[j]);
+            }
+            
+        }
         
     }
-
-    // Collision
 
     
     /*
@@ -100,13 +120,17 @@ void LineParticles::update(){
 void LineParticles::draw(){
     
     renderedGeom.clear();
+    renderedLineGeom.clear();
     
     vector<ofVec3f>::iterator itr;
     for(itr = particlePoints.begin(); itr != particlePoints.end(); itr++){
         renderedGeom.addVertex(*(itr));
     }
     
-    cout << particlePoints.size() << endl;
+    vector<ofVec3f>::iterator itrL;
+    for(itrL = linePoints.begin(); itrL != linePoints.end(); itrL++){
+        renderedLineGeom.addVertex(*(itrL));
+    }
     
     renderedGeom.draw();
     renderedLineGeom.draw();
