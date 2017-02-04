@@ -53,15 +53,18 @@ public:
 private:
     
     void setGLParam(){
-        static GLfloat distance[] = { 0.0, 0.0, 1.0 };
+        static GLfloat distance[] = { 1.0, 0.0, 0.0 };
         glPointParameterfv(GL_POINT_DISTANCE_ATTENUATION, distance);
-        glPointSize(5000.0);
+        glPointSize(3.0);
     }
     
     void keyEvent(){
         int key = $Context(KeyboardControl)->getPressedKey();
         if (key == 'a') {
             lineParticles.resetParticlePosition();
+        }
+        if (key == 's') {
+            lineParticles.changeMorphTarget();
         }
         
         if (key == 'z') {

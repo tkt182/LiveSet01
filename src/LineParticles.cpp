@@ -8,14 +8,14 @@
 
 #include "LineParticles.h"
 
-
 LineParticles::LineParticles(){
 
     // Sphere
-    circleResolution = 20;
-    slides = 20;
+    circleResolution = 30;
+    slides = 30;
     radius = 100;
     particleNum = circleResolution*circleResolution;
+    morphTargetId = SPHERE;
     
     for(int i=0; i<circleResolution; i++){
         
@@ -34,9 +34,54 @@ LineParticles::LineParticles(){
         
             spherePoints.push_back(ofVec3f(x,y,z));
             
-            //velocity.push_back(
-            //    ofVec3f(ofRandom(10.), ofRandom(10.), ofRandom(10.))
-            //);
+        }
+    }
+    
+    // Box
+    // 0 : front
+    // 1 : top
+    // 2 : right
+    // 3 : left
+    // 4 : bottom
+    // 5 : back
+    for(int i = 0; i < 6; i++){
+        float x, y, z;
+        for(int j = 0; j < 10; j++){
+            for(int k = 0; k < 15; k++){
+                // front
+                if(i == 0){
+                    z = radius / 2.;
+                    x = k / 15.0 * radius - radius / 2.;
+                    y = j / 10. * radius - radius / 2.;
+                }
+                if(i == 1){
+                    y = radius / 2.;
+                    x = k / 15.0 * radius - radius / 2.;
+                    z = j / 10.0 * radius - radius / 2.;
+                }
+                if(i == 2){
+                    x = radius / 2.;
+                    z = k / 15.0 * radius - radius / 2.;
+                    y = j / 10.0 * radius - radius / 2.;
+                }
+                if(i == 3){
+                    x = -radius / 2.;
+                    z = k / 15.0 * radius - radius / 2.;
+                    y = j / 10.0 * radius - radius / 2.;
+                }
+                if(i == 4){
+                    y = -radius / 2.;
+                    x = k / 15.0 * radius - radius / 2.;
+                    z = j / 10.0 * radius - radius / 2.;
+                }
+                if(i == 5){
+                    z = -radius / 2.;
+                    x = k / 15.0 * radius - radius / 2.;
+                    y = j / 10. * radius - radius / 2.;
+                }
+            
+                boxPoints.push_back(ofVec3f(x,y,z));
+            }
             
         }
     }
@@ -64,6 +109,9 @@ LineParticles::LineParticles(){
     
     renderedGeom.setMode(OF_PRIMITIVE_POINTS);
     renderedLineGeom.setMode(OF_PRIMITIVE_LINES);
+    //boxGeom.setMode(OF_PRIMITIVE_POINTS);
+
+    morphTarget = spherePoints;
 }
 
 LineParticles::~LineParticles(){
@@ -71,20 +119,28 @@ LineParticles::~LineParticles(){
 
 void LineParticles::update(){
 
-    float morphingSpeed = 0.05;
-    float minDistance   = 20.0;
+    float morphingSpeed = 0.01;
+    float minDistance   = 15.0;
     int vertexIndex     = 0;
 
     linePoints.clear();
+    linePointColors.clear();
     
     for(int i = 0; i < particleNum; i++){
         
         tPData particleData = particlesData[i];
         ofVec3f currentPos  = particlePoints[i];
         
-        particlePoints[i].x = currentPos.x*(1. - morphingSpeed)+spherePoints[i].x*morphingSpeed;
-        particlePoints[i].y = currentPos.y*(1. - morphingSpeed)+spherePoints[i].y*morphingSpeed;
-        particlePoints[i].z = currentPos.z*(1. - morphingSpeed)+spherePoints[i].z*morphingSpeed;
+        //particlePoints[i].x = currentPos.x*(1. - morphingSpeed)+spherePoints[i].x*morphingSpeed;
+        //particlePoints[i].y = currentPos.y*(1. - morphingSpeed)+spherePoints[i].y*morphingSpeed;
+        //particlePoints[i].z = currentPos.z*(1. - morphingSpeed)+spherePoints[i].z*morphingSpeed;
+        //particlePoints[i].x = currentPos.x*(1. - morphingSpeed)+boxPoints[i].x*morphingSpeed;
+        //particlePoints[i].y = currentPos.y*(1. - morphingSpeed)+boxPoints[i].y*morphingSpeed;
+        //particlePoints[i].z = currentPos.z*(1. - morphingSpeed)+boxPoints[i].z*morphingSpeed;
+        particlePoints[i].x = currentPos.x*(1. - morphingSpeed)+morphTarget[i].x*morphingSpeed;
+        particlePoints[i].y = currentPos.y*(1. - morphingSpeed)+morphTarget[i].y*morphingSpeed;
+        particlePoints[i].z = currentPos.z*(1. - morphingSpeed)+morphTarget[i].z*morphingSpeed;
+        
        
         for(int j = i + 1; j < particleNum; j++){
             
@@ -96,23 +152,24 @@ void LineParticles::update(){
             
             float dist = sqrt(dx*dx + dy*dy + dz*dz);
             
+            float alpha = 1.0;
+            
             if(dist < minDistance){
                 particleData.numConnections++;
                 linePoints.push_back(particlePoints[i]);
                 linePoints.push_back(particlePoints[j]);
+            
+                alpha = 1.0 - dist / minDistance;
+                
+                ofFloatColor color = ofFloatColor(1.0, 1.0, 1.0, alpha);
+                linePointColors.push_back(color);
+                linePointColors.push_back(color);
+                
             }
             
         }
         
     }
-
-    
-    /*
-    vector<ofVec3f>::iterator itrL;
-    for(itrL = sphereLinePoints.begin(); itrL != sphereLinePoints.end(); itrL++){
-        sphereLineGeom.addVertex(*(itrL));
-    }
-    */
     
 }
 
@@ -132,25 +189,19 @@ void LineParticles::draw(){
         renderedLineGeom.addVertex(*(itrL));
     }
     
+    vector<ofFloatColor>::iterator itrC;
+    for(itrC = linePointColors.begin(); itrC != linePointColors.end(); itrC++){
+        renderedLineGeom.addColor(*(itrC));
+    }
+    
+    vector<ofVec3f>::iterator itrB;
+    for(itrB = boxPoints.begin(); itrB != boxPoints.end(); itrB++){
+        boxGeom.addVertex(*(itrB));
+    }
+    
     renderedGeom.draw();
     renderedLineGeom.draw();
-}
-
-
-
-void LineParticles::setLineGroup(){
-
-    sphereLinePoints.clear();
-    sphereLineGeom.clear();
-    
-    int maxLineParticlepNum = spherePoints.size();
-    int lineParticleNum     = ofRandom(10, maxLineParticlepNum);
-    
-    for(int i = 0; i < lineParticleNum; i++){
-        int target = ofRandom(0, spherePoints.size());
-        sphereLinePoints.push_back(spherePoints[target]);
-    }
-
+    //boxGeom.draw();
 }
 
 
@@ -168,7 +219,17 @@ void LineParticles::resetParticlePosition(){
 }
 
 
+void LineParticles::changeMorphTarget(){
 
+    if(morphTargetId == SPHERE){
+        morphTarget   = boxPoints;
+        morphTargetId = BOX;
+    }else if(morphTargetId == BOX){
+        morphTarget   = spherePoints;
+        morphTargetId = SPHERE;
+    }
+
+}
 
 
 
