@@ -2,7 +2,7 @@
 
 AttractionParticle::AttractionParticle(){
     radius = 0.1;
-    friction = 0.01;
+    friction = 0.02;
     mass = 1.0;
     bFixed = false;
 }

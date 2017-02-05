@@ -72,7 +72,7 @@ private:
             }
             
         }
-        cout << key << endl;
+
         if (key == 'a') {
             lineParticles.resetParticlePosition();
         }

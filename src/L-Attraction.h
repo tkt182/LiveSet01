@@ -23,13 +23,14 @@ public:
     vector<AttractionParticle> particles;
     ofVboMesh mesh;
     bool atraction;
-    static const int NUM = 40000;
+    static const int NUM = 10000;
     float angle = 0.0;
     
     ofVec3f center;
     int swidth, sheight, sdepth;
     
     float rotation;
+    float clickedAt;
     
     
     void setup(){
@@ -43,6 +44,7 @@ public:
         //sdepth  = 480;
         sheight = swidth;
         sdepth = swidth;
+        clickedAt = ofGetElapsedTimef();
         
         
         for (int i = 0; i < NUM; i++) {
@@ -113,19 +115,43 @@ private:
     void setGLParam(){
         static GLfloat distance[] = { 1.0, 0.0, 0.0 };
         glPointParameterfv(GL_POINT_DISTANCE_ATTENUATION, distance);
-        glPointSize(2.0);
+        glPointSize(4.0);
     }
     
     
     void keyEvent(){
 
         int key = $Context(KeyboardControl)->getPressedKey();
+        if (key > 0) {
+            float currentClickedAt = ofGetElapsedTimef();
+            if(currentClickedAt - clickedAt > 0.14){
+                clickedAt = currentClickedAt;
+            }else{
+                return;
+            }
+            
+        }
+        
         if (key == 'a') {
             atraction = true;
         }
         if (key == 's') {
             atraction = false;
         }
+        
+        if (key == 356) {
+            center.x += 50.0;
+        }
+        if (key == 358) {
+            center.x -= 50.0;
+        }
+        if (key == 'd') {
+            center.x = 0;
+        }
+        if (key == 'f') {
+            center.x = swidth / 2.0;
+        }
+        
         if (key == 'z') {
             $Context(RollCam)->setRandomPos();
         }
