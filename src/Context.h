@@ -18,7 +18,7 @@ public:
     int pressedKey;
     
     void setup(){
-        pressedKey = 0;
+        pressedKey = -1;
     }
     
     void setPressedKey(int key){

@@ -22,10 +22,12 @@ public:
     OFX_LAYER_DEFINE_LAYER_CLASS(LineParticle);
     
     LineParticles lineParticles;
+    float         clickedAt;
     
     void setup(){
         $Context(RollCam)->setup();
         //LineParticles lineParticles;
+        clickedAt = ofGetElapsedTimef();
         
     }
     
@@ -53,18 +55,45 @@ public:
 private:
     
     void setGLParam(){
-        static GLfloat distance[] = { 1.0, 0.0, 0.0 };
+        static GLfloat distance[] = { 0.0, 0.0, 1.0 };
         glPointParameterfv(GL_POINT_DISTANCE_ATTENUATION, distance);
-        glPointSize(3.0);
+        glPointSize(5000.0);
     }
     
     void keyEvent(){
+        
         int key = $Context(KeyboardControl)->getPressedKey();
+        if (key > 0) {
+            float currentClickedAt = ofGetElapsedTimef();
+            if(currentClickedAt - clickedAt > 0.14){
+                clickedAt = currentClickedAt;
+            }else{
+                return;
+            }
+            
+        }
+        cout << key << endl;
         if (key == 'a') {
             lineParticles.resetParticlePosition();
         }
         if (key == 's') {
             lineParticles.changeMorphTarget();
+        }
+        
+        if (key == 'f') {
+            lineParticles.changeMorphForce();
+        }
+        if (key == 'g') {
+            lineParticles.changeTargetForce();
+        }
+        
+        if (key == 358) {
+            //lineParticles.increaseMinDistance(5.0);
+            lineParticles.setMinDistance(100.0);
+        }
+        if (key == 356) {
+            //lineParticles.increaseMinDistance(-5.0);
+            lineParticles.setMinDistance(15.0);
         }
         
         if (key == 'z') {

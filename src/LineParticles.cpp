@@ -10,10 +10,21 @@
 
 LineParticles::LineParticles(){
 
+    isMorphing      = true;
+    forceMorph      = false;
+    forceTarget     = false;
+    lineMinDistance = 30.0;
+    rotateX         = 0;
+    rotateY         = 0;
+    rotateZ         = 0;
+    
     // Sphere
+    counter      = 0;
+    startMorphAt = 0;
+    frames       = 0;
     circleResolution = 30;
     slides = 30;
-    radius = 100;
+    radius = 200;
     particleNum = circleResolution*circleResolution;
     morphTargetId = SPHERE;
     
@@ -101,7 +112,10 @@ LineParticles::LineParticles(){
         //);
         tPData particleData;
         particleData.numConnections = 0;
-        particleData.velocity = ofRandom((-10.f, 10.f));
+        ofVec3f velocity = ofVec3f(
+            ofRandom(-1.f, 1.f), ofRandom(-1.f, 1.f), ofRandom(-1.f, 1.f)
+        );
+        particleData.velocity = velocity;
         
         particlesData.push_back(particleData);
         
@@ -119,7 +133,7 @@ LineParticles::~LineParticles(){
 
 void LineParticles::update(){
 
-    float morphingSpeed = 0.01;
+    float morphingSpeed = 0.003;
     float minDistance   = 15.0;
     int vertexIndex     = 0;
 
@@ -137,9 +151,24 @@ void LineParticles::update(){
         //particlePoints[i].x = currentPos.x*(1. - morphingSpeed)+boxPoints[i].x*morphingSpeed;
         //particlePoints[i].y = currentPos.y*(1. - morphingSpeed)+boxPoints[i].y*morphingSpeed;
         //particlePoints[i].z = currentPos.z*(1. - morphingSpeed)+boxPoints[i].z*morphingSpeed;
-        particlePoints[i].x = currentPos.x*(1. - morphingSpeed)+morphTarget[i].x*morphingSpeed;
-        particlePoints[i].y = currentPos.y*(1. - morphingSpeed)+morphTarget[i].y*morphingSpeed;
-        particlePoints[i].z = currentPos.z*(1. - morphingSpeed)+morphTarget[i].z*morphingSpeed;
+        
+        
+        //if(counter - startMorphAt > 30. * (0.1/morphingSpeed)){
+        //    isMorphing = false;
+        //}
+        //if(forceMorph) isMorphing = true;
+        
+        if(isMorphing){
+            
+            particlePoints[i].x = currentPos.x*(1. - morphingSpeed)+morphTarget[i].x*morphingSpeed;
+            particlePoints[i].y = currentPos.y*(1. - morphingSpeed)+morphTarget[i].y*morphingSpeed;
+            particlePoints[i].z = currentPos.z*(1. - morphingSpeed)+morphTarget[i].z*morphingSpeed;
+        }else{
+            particlePoints[i].x += particleData.velocity.x*0.1;
+            particlePoints[i].y += particleData.velocity.y*0.1;
+            particlePoints[i].z += particleData.velocity.z*0.1;
+            
+        }
         
        
         for(int j = i + 1; j < particleNum; j++){
@@ -154,12 +183,12 @@ void LineParticles::update(){
             
             float alpha = 1.0;
             
-            if(dist < minDistance){
+            if(dist < lineMinDistance){
                 particleData.numConnections++;
                 linePoints.push_back(particlePoints[i]);
                 linePoints.push_back(particlePoints[j]);
             
-                alpha = 1.0 - dist / minDistance;
+                alpha = 1.0 - dist / lineMinDistance;
                 
                 ofFloatColor color = ofFloatColor(1.0, 1.0, 1.0, alpha);
                 linePointColors.push_back(color);
@@ -199,8 +228,25 @@ void LineParticles::draw(){
         boxGeom.addVertex(*(itrB));
     }
     
-    renderedGeom.draw();
-    renderedLineGeom.draw();
+    ofPushMatrix();
+    {
+        ofRotateZ(rotateZ);
+        ofRotateY(rotateY);
+        renderedGeom.draw();
+        renderedLineGeom.draw();
+        rotateZ += 0.05;
+        rotateY += 0.2;
+    }
+    ofPopMatrix();
+
+    
+    counter++;
+    frames++;
+    if(frames % 640 == 0){
+        startMorphAt = counter;
+        //isMorphing   = true;
+        changeMorphTarget();
+    }
     //boxGeom.draw();
 }
 
@@ -228,9 +274,26 @@ void LineParticles::changeMorphTarget(){
         morphTarget   = spherePoints;
         morphTargetId = SPHERE;
     }
-
+    
+    if(forceTarget){
+        morphTarget = spherePoints;
+        morphTargetId = SPHERE;
+    }
 }
 
+void LineParticles::changeMorphForce(){
+    //forceMorph = !forceMorph;
+    isMorphing = !isMorphing;
+}
 
+void LineParticles::changeTargetForce(){
+    forceTarget = !forceTarget;
+}
 
+void LineParticles::increaseMinDistance(float d){
+    lineMinDistance += d;
+}
 
+void LineParticles::setMinDistance(float d){
+    lineMinDistance = d;
+}

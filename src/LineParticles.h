@@ -25,12 +25,27 @@ public:
     void draw();
     void resetParticlePosition();
     void changeMorphTarget();
+    void changeMorphForce();
+    void changeTargetForce();
+    void increaseMinDistance(float d);
+    void setMinDistance(float d);
     
     int morphTargetId;
     int circleResolution;
     int slides;
     int radius;
     int particleNum;
+    bool isMorphing;
+    bool forceMorph;
+    bool disableMorph;
+    bool forceTarget;
+    int counter;
+    int startMorphAt;
+    int frames;
+    float lineMinDistance;
+    float rotateX;
+    float rotateY;
+    float rotateZ;
     
     
     vector<ofVec3f> spherePoints;
@@ -50,7 +65,7 @@ public:
     
     typedef struct{
         int numConnections;
-        float velocity;
+        ofVec3f velocity;
     } tPData;
     
     vector<tPData> particlesData;
